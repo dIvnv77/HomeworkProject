@@ -1,6 +1,6 @@
 ﻿using API.Errors;
 using Core;
-using Core.Entities.Identity;
+using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Services;
