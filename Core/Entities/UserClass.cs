@@ -1,4 +1,6 @@
-﻿namespace Core.Entities
+﻿using Core.Entities.Identity;
+
+namespace Core.Entities
 {
     public class UserClass : BaseEntity
     {
@@ -8,6 +10,6 @@
 
         public string ClassId { get; set; }
 
-        public Class Class {get; set; }
-        }
+        public Class Class { get; set; }
+    }
 }

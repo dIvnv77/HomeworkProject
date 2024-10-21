@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Enums;
+using Core.Entities.Identity;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities
@@ -28,6 +29,5 @@ namespace Core.Entities
         public Grade Grade { get; set; }
 
         public ICollection<Attachment> Attachments { get; set; }
-
     }
 }

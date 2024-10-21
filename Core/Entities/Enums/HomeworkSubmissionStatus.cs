@@ -1,6 +1,4 @@
-﻿
-
-namespace Core.Entities.Enums
+﻿namespace Core.Entities.Enums
 {
     public enum HomeworkSubmissionStatus
     {

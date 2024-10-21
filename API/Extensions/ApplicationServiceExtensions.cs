@@ -1,6 +1,6 @@
 ﻿using API.Errors;
 using Core;
-using Core.Entities;
+using Core.Entities.Identity;
 using Core.Interfaces;
 using Infrastructure.Data;
 using Infrastructure.Services;
@@ -52,10 +52,17 @@ namespace API.Extensions
                 opt.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
             });
 
+            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
 
             services.AddAuthorization();
 
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<ICloudinaryService, CloudinaryService>();
+            services.AddScoped<IClassService, ClassService>();
+            services.AddScoped<IHomeworkService, HomeworkService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IHomeworkSubmissionService, HomeworkSubmissionService>();
+            services.AddScoped<IAttachmentService, AttachmentService>();
 
             services.Configure<Jwt>(configuration.GetSection("JWT"));
 

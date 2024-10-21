@@ -2,8 +2,9 @@
 using API.Errors;
 using API.Extensions;
 using Core.Dtos.Auth;
-using Core.Entities;
+using Core.Entities.Identity;
 using Core.Interfaces;
+using Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,23 +21,28 @@ namespace API.Controllers
            SignInManager<ApplicationUser> signInManager,
            ITokenService tokenService)
         {
-            this.userManager = userManager; 
+            this.userManager = userManager;
             this.signInManager = signInManager;
             this.tokenService = tokenService;
         }
 
         [HttpGet]
-        [CustomAuthorize]
+        [CustomAuthorize(Constants.ADMINISTRATOR_ROLE, Constants.TEACHER_ROLE, Constants.STUDENT_ROLE)]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
             var user = await this.userManager
                 .FindByEmailFromClaimsPrincipalAsync(this.User);
 
+            IList<string> roles = await this.userManager
+               .GetRolesAsync(user);
+
+            string role = roles[0];
+
             return this.Ok(new UserDto
             {
                 Id = user.Id,
                 Email = user.Email,
-                Token = this.tokenService.CreateToken(user),
+                Token = this.tokenService.CreateToken(user, role),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
             });
@@ -69,11 +75,16 @@ namespace API.Controllers
                 return this.Unauthorized(new ApiResponse(StatusCodes.Status401Unauthorized));
             }
 
+            IList<string> roles = await this.userManager
+                .GetRolesAsync(user);
+
+            string role = roles[0];
+
             return this.Ok(new UserDto
             {
                 Id = user.Id,
                 Email = user.Email,
-                Token = this.tokenService.CreateToken(user),
+                Token = this.tokenService.CreateToken(user, role),
                 FirstName = user.FirstName,
                 LastName = user.LastName,
             });
@@ -107,10 +118,14 @@ namespace API.Controllers
                 return this.BadRequest(new ApiResponse(StatusCodes.Status400BadRequest));
             }
 
+            string role = Constants.STUDENT_ROLE;
+
+            await this.userManager.AddToRoleAsync(user, role);
+
             return this.Ok(new UserDto
             {
                 Id = user.Id,
-                Token = this.tokenService.CreateToken(user),
+                Token = this.tokenService.CreateToken(user, role),
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
