@@ -1,5 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Linq.Expressions;
+﻿using Core.Entities.Identity;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Entities
 {
@@ -26,4 +26,4 @@ namespace Core.Entities
 
         public ICollection<Homework> Homeworks { get; set; }
     }
-} 
+}

@@ -1,4 +1,5 @@
 ﻿using Core.Entities;
+using Core.Entities.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -9,8 +10,8 @@ namespace Infrastructure.Data
     {
         public ApplicationContext(DbContextOptions<ApplicationContext> options) : base(options)
         {
-
         }
+
         public DbSet<Class> Classes { get; set; }
 
         public DbSet<UserClass> UserClasses { get; set; }
@@ -26,7 +27,6 @@ namespace Infrastructure.Data
         public DbSet<UserReport> UserReports { get; set; }
 
         public DbSet<Attachment> Attachments { get; set; }
-
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

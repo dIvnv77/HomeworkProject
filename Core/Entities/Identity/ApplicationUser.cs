@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.Entities
+namespace Core.Entities.Identity
 {
     public class ApplicationUser : IdentityUser
     {
@@ -15,8 +15,14 @@ namespace Core.Entities
             this.Attachments = new HashSet<Attachment>();
         }
 
+        [Required]
+        [MinLength(3)]
+        [MaxLength(30)]
         public string FirstName { get; set; }
 
+        [Required]
+        [MinLength(3)]
+        [MaxLength(50)]
         public string LastName { get; set; }
 
         [Required]
